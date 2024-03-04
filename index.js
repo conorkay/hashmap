@@ -17,6 +17,7 @@ class HashMap {
     this.hashArray = [];
     this.capacity = 16;
     this.arrLength = 0;
+    this.loadFactor = 0.75;
   }
 
   hash(key) {
@@ -36,6 +37,9 @@ class HashMap {
     if (!this.hashArray[hashCode]) {
       this.hashArray[hashCode] = newNode;
       ++this.arrLength;
+      if (this.length() / this.capacity > this.loadFactor) {
+        this.grow();
+      }
     } else {
       let currNode = this.hashArray[hashCode];
       while (currNode.next) {
@@ -50,6 +54,9 @@ class HashMap {
       } else {
         currNode.next = newNode;
         ++this.arrLength;
+        if (this.length() / this.capacity > this.loadFactor) {
+          this.grow();
+        }
       }
     }
   }
@@ -155,6 +162,15 @@ class HashMap {
     });
     return entryArray;
   }
+
+  grow() {
+    let currEntries = this.entries();
+    this.capacity = this.capacity * 2;
+    this.clear();
+    currEntries.forEach((element) => {
+      this.set(element[0], element[1]);
+    });
+  }
 }
 
 let hash = new HashMap();
@@ -174,3 +190,8 @@ console.log(hash.length());
 console.log(hash.keys());
 console.log(hash.values());
 console.log(hash.entries());
+
+hash.grow();
+console.log('after grow: ' + hash.length());
+console.log(hash.hashArray);
+console.log(hash.capacity);
