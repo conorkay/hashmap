@@ -113,11 +113,48 @@ class HashMap {
     this.arrLength = 0;
   }
 
-  keys() {}
+  keys() {
+    let keyArray = [];
+    this.hashArray.forEach((element) => {
+      if (element) {
+        let currNode = element;
+        while (currNode) {
+          keyArray.push(currNode.key);
+          currNode = currNode.next;
+        }
+      }
+    });
+    return keyArray;
+  }
 
-  values() {}
+  values() {
+    let valueArray = [];
+    this.hashArray.forEach((element) => {
+      if (element) {
+        let currNode = element;
+        while (currNode) {
+          valueArray.push(currNode.value);
+          currNode = currNode.next;
+        }
+      }
+    });
+    return valueArray;
+  }
 
-  entries() {}
+  entries() {
+    let entryArray = [];
+    this.hashArray.forEach((element) => {
+      if (element) {
+        let currNode = element;
+        while (currNode) {
+          let pushArray = [currNode.key, currNode.value];
+          entryArray.push(pushArray);
+          currNode = currNode.next;
+        }
+      }
+    });
+    return entryArray;
+  }
 }
 
 let hash = new HashMap();
@@ -129,8 +166,11 @@ let value2 = 10;
 hash.set(key, value);
 hash.set(key1, value2);
 console.log(hash.hashArray);
+hash.set('Conor', 6);
 console.log('get: ' + hash.get('Conor'));
 console.log(hash.length());
-hash.clear();
 console.log(hash.get('Conor'));
 console.log(hash.length());
+console.log(hash.keys());
+console.log(hash.values());
+console.log(hash.entries());
